@@ -1,25 +1,137 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
-</header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
-<script type="module" src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10151f" />
+    <meta
+      name="description"
+      content="Your route through Leonida: a sourced trophy guide, spoiler-safe roadmap and private platinum tracker."
+    />
+    <title>Leonida Trophy Atlas — Every trophy. Your own pace.</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%2310151f'/%3E%3Cpath d='M12 8h16v12l-8 8-8-8zm6 19h4v5h6v3H12v-3h6z' fill='%23f58cae'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to trophies</a>
+    <div class="site-wrap">
+      <header class="masthead">
+        <div class="edition">
+          <span class="brand-mark">L<span>◆</span>A</span><span>THE COMPLETIONIST’S FIELD GUIDE</span
+          ><span class="edition-right">GRAND THEFT AUTO VI <b>PS5</b></span>
+        </div>
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="live-dot"></span> WELCOME TO THE GOODTIME STATE</div>
+            <h1>LEONIDA <span>TROPHY</span> <em>Atlas</em></h1>
+            <p>Every trophy. Every detour. <strong>Your road to platinum.</strong></p>
+          </div>
+          <div class="postcard" aria-hidden="true">
+            <div class="postcard-sun"></div>
+            <svg viewBox="0 0 410 145" class="city-art">
+              <defs>
+                <pattern id="windows" width="12" height="13" patternUnits="userSpaceOnUse">
+                  <rect width="3" height="5" fill="#5ba9b4" opacity=".45" />
+                </pattern>
+              </defs>
+              <path
+                d="M0 120H26V85H46V120H61V62H74V40H80V62H94V120H107V92H126V120H143V45H163V28H171V45H190V120H208V72H229V120H241V34H272V120H286V64H304V120H322V85H345V120H366V70H387V120H410V145H0Z"
+                fill="#16212e"
+                stroke="#608591"
+                stroke-width=".6"
+              />
+              <path
+                d="M64 67H90V119H64ZM147 50H186V119H147ZM245 39H268V119H245ZM290 70H300V119H290Z"
+                fill="url(#windows)"
+              />
+              <path d="M0 125H410M0 133H410M20 142H390" stroke="#f68ca6" opacity=".45" />
+              <g fill="none" stroke="#7bcac3" stroke-width="3">
+                <path
+                  d="M350 128q-4-40-9-72m0 0q-28-9-40 10m40-10q-24-28-43-15m43 15q14-24 34-18m-34 18q30-14 45 4m-45-4q13-34 7-44"
+                />
+                <path
+                  d="M46 130q3-25 8-48m0 0q-19-7-29 5m29-5q-8-22-23-22m23 22q18-17 33-8m-33 8q18-1 24 12"
+                />
+              </g></svg
+            ><span class="postcard-caption">25°46′ N &nbsp; / &nbsp; LEONIDA, USA</span>
+          </div>
+        </div>
+        <section class="stats-band" aria-label="Your completion" id="stats"></section>
+      </header>
+      <nav class="view-nav" aria-label="Guide views">
+        <div class="tabs">
+          <button type="button" data-view="trophies" class="active">Trophies <span>55</span></button
+          ><button type="button" data-view="roadmap">Roadmap <span>↗</span></button>
+        </div>
+        <span class="save-state"><span class="live-dot"></span> SAVED ON THIS DEVICE</span>
+      </nav>
+      <main id="workspace" tabindex="-1">
+        <section class="toolbar" id="toolbar" aria-label="Trophy filters">
+          <div class="filter-top">
+            <label class="search"
+              ><span aria-hidden="true">⌕</span
+              ><input
+                id="search"
+                type="search"
+                placeholder="Find a trophy, activity or keyword…"
+                aria-label="Search trophies" /></label
+            ><label class="select-wrap"
+              ><span>GRADE</span
+              ><select id="grade" aria-label="Filter by grade">
+                <option value="all">All grades</option>
+                <option>Platinum</option>
+                <option>Gold</option>
+                <option>Silver</option>
+                <option>Bronze</option>
+              </select></label
+            ><label class="select-wrap"
+              ><span>STATUS</span
+              ><select id="status" aria-label="Filter by earned status">
+                <option value="all">All trophies</option>
+                <option value="earned">Earned</option>
+                <option value="unearned">Not earned</option>
+              </select></label
+            ><label class="select-wrap sort"
+              ><span>SORT BY</span
+              ><select id="sort" aria-label="Sort trophies">
+                <option value="list">List order</option>
+                <option value="grade">Grade</option>
+                <option value="name">Name A–Z</option>
+              </select></label
+            >
+          </div>
+          <div class="filter-bottom">
+            <div class="pills" id="categories" role="group" aria-label="Category"></div>
+            <div class="toggles">
+              <label><input type="checkbox" id="missable" /><span class="switch"></span>Missable only</label
+              ><label title="Hide story and secret names until earned or revealed"
+                ><input type="checkbox" id="spoilers" checked /><span class="switch"></span>Spoiler
+                shield</label
+              >
+            </div>
+          </div>
+          <div class="toolbar-backup">
+            <button data-action="export">↓ Export progress</button
+            ><button data-action="import">↑ Import progress</button>
+          </div>
+        </section>
+        <div class="content-layout">
+          <section class="primary-content" id="results" aria-label="Trophy checklist"></section>
+          <aside class="side-rail" id="side-rail"></aside>
+        </div>
+      </main>
+      <footer>
+        <span class="footer-brand">L<span>◆</span>A <b>LEONIDA TROPHY ATLAS</b></span>
+        <p>A fan-made concept guide. Not affiliated with Rockstar Games or Take-Two Interactive.</p>
+        <span>BUILT FOR THE LONG ROAD.</span>
+      </footer>
+    </div>
+    <input type="file" id="import-file" accept="application/json,.json" hidden />
+    <div id="toast" role="status" aria-live="polite"></div>
+    <noscript>This atlas needs JavaScript to load its local trophy list and private tracker.</noscript>
+  </body>
 </html>

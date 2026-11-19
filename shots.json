@@ -1,5 +1,33 @@
 [
-  { "file": "1-checklist.jpg", "path": "/", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "2-silver.jpg", "path": "/", "grade": "silver", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "3-bronze.jpg", "path": "/", "grade": "bronze", "scroll": 1400, "viewport": { "width": 1280, "height": 800 } }
+  {
+    "file": "1-checklist.jpg",
+    "path": "/",
+    "viewport": { "width": 1280, "height": 800 },
+    "grade": null,
+    "scroll": 0
+  },
+  {
+    "file": "2-silver.jpg",
+    "path": "/",
+    "query": "?grade=silver",
+    "viewport": { "width": 1280, "height": 800 },
+    "grade": "silver",
+    "scroll": 0
+  },
+  {
+    "file": "3-roadmap.jpg",
+    "path": "/",
+    "query": "?view=roadmap",
+    "viewport": { "width": 1280, "height": 800 },
+    "grade": null,
+    "scroll": 0
+  },
+  {
+    "file": "4-guide.jpg",
+    "path": "/",
+    "query": "?open=trophy-03",
+    "viewport": { "width": 1280, "height": 800 },
+    "grade": null,
+    "scroll": 0
+  }
 ]
