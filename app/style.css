@@ -1171,6 +1171,7 @@ select option {
 .phase-progress strong {
   font-weight: 400;
   color: var(--teal);
+  color: var(--muted);
 }
 .roadmap-source {
   font-size: 9px;
