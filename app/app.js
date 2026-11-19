@@ -57,8 +57,8 @@ function persist() {
   }
 }
 
-function groupProgress(categories) {
-  const trophies = data.trophies.filter((trophy) => categories.includes(trophy.category));
+function groupProgress(categories, visibleTrophies = data.trophies) {
+  const trophies = visibleTrophies.filter((trophy) => categories.includes(trophy.category));
   const done = trophies.filter((trophy) => earned.has(trophy.id)).length;
   return {
     done,
@@ -145,7 +145,7 @@ function renderTrophies() {
     (category) => {
       const trophies = filtered.filter((trophy) => trophy.category === category);
       if (!trophies.length) return '';
-      const progress = groupProgress([category]);
+      const progress = groupProgress([category], filtered);
       return `<section class="group" aria-label="${category} trophies"><div class="group-header"><h2>${category === 'Platinum' ? 'The ultimate souvenir' : category}</h2><span class="group-line"></span><span class="group-count">${progress.done} / ${progress.total}</span><span class="mini-bar" aria-hidden="true"><span style="width:${progress.percent}%"></span></span></div><div class="trophy-grid">${trophies.map(trophyMarkup).join('')}</div></section>`;
     },
   ).join(
@@ -176,6 +176,7 @@ function renderRoadmap() {
   const missables = data.trophies.filter((trophy) => trophy.missable);
   results.innerHTML = `<div class="roadmap-intro"><div><h2>THE LONG ROAD TO LEGEND</h2><p>A considered route. A little less backtracking.</p></div><span class="route-stamp">SINGLE-PLAYER ONLY</span></div><div class="roadmap-metrics"><div class="metric"><span>ESTIMATED DIFFICULTY</span><strong>${roadmap.difficulty}</strong><small>${escapeHtml(roadmap.difficultyNote)}</small></div><div class="metric"><span>TIME TO PLATINUM</span><strong>${roadmap.timeToPlatinum}</strong><small>PowerPyx estimate · exploration sets the pace</small></div></div><section class="roadmap-warning"><h3>! MISSABLES FIRST</h3>${missables.map((trophy) => `<p><strong>${escapeHtml(trophy.name)} — Chapter 1, Jason’s house.</strong> After Down to Earth, talk to Lucia in the kitchen in the morning, follow her to the balcony and accept meditation before leaving the chapter. Potentially missable; the requirement is still being verified. <a href="?open=${trophy.id}" data-jump="${trophy.id}">Read the precaution ↗</a></p>`).join('')}</section><div class="timeline">${roadmap.phases
     .map((phase, index) => {
+      if (index === 0) phase = { ...phase, text: 'Before leaving Chapter 1, see the Missables First warning above.' };
       const progress = groupProgress(phase.categories);
       return `<section class="phase"><span class="phase-number">${String(index + 1).padStart(2, '0')}</span><div class="phase-header"><h3>${escapeHtml(phase.title)}</h3><span class="phase-time">${escapeHtml(phase.hours)}</span></div><p>${escapeHtml(phase.text)}</p><div class="phase-progress"><span>${phase.categories.join(' + ')}</span><div class="progress-bar"><span style="width:${progress.percent}%"></span></div><strong>${progress.done} / ${progress.total} earned</strong></div></section>`;
     })
@@ -191,6 +192,21 @@ function renderRail() {
     <section class="rail-panel warning-panel"><div class="rail-eyebrow"><span>! BEFORE YOU LEAVE CH. 1</span></div><h3>Take a moment. Meditate.</h3><p>Positive Mental Attitude has a potentially missable introduction at Jason’s house. Keep a manual save.</p><button class="rail-action" data-jump="trophy-28">Read the missable note <span>↗</span></button></section>
     <section class="rail-panel"><div class="rail-eyebrow"><span>YOUR PROGRESS, YOURS.</span><span class="backup-icon">⇅</span></div><p style="margin-top:12px">${progress.done} earned. One browser. No account.<br>Take a backup for the next device.</p><div class="backup-actions"><button data-action="export">↓ Export progress</button><button data-action="import">↑ Import progress</button></div><p class="rail-footnote" style="margin-top:10px">JSON backup · stored locally · no cloud sync</p></section>
     <section class="rail-panel"><div class="rail-eyebrow"><span>THE HARDWARE</span><span>POINTS</span></div><div class="legend-list">${GRADES.map((grade) => `<div><span class="grade-${grade}"><i></i>${grade[0].toUpperCase() + grade.slice(1)}</span><b>${POINTS[grade]}</b></div>`).join('')}</div></section><p class="rail-footnote">FIELD EDITION / 19 NOV 2026<br>Source-linked advice. Unconfirmed secrets are labelled inside their guides.</p>`;
+  const rail = document.querySelector('#side-rail');
+  if (state.view === 'trophies') rail.querySelector('.route-panel h2').textContent = 'Make the city yours.';
+  rail.querySelector('.route-panel p').textContent = state.view === 'roadmap'
+    ? 'Follow the phases, then audit your checklist.'
+    : 'Story first. Keep a Chapter 1 save.';
+  rail.querySelector('.warning-panel p').textContent = state.view === 'roadmap'
+    ? 'See Missables First in the roadmap.'
+    : 'Keep a manual save for meditation.';
+  rail.querySelectorAll('.rail-panel:nth-child(3) > p').forEach((paragraph) => { paragraph.hidden = true; });
+  rail.querySelector('.rail-panel:nth-child(3) .rail-eyebrow > span').textContent = 'LOCAL PROGRESS · JSON BACKUP';
+  rail.querySelector(':scope > .rail-footnote').textContent = 'FIELD EDITION / 19 NOV 2026';
+  if (state.view === 'roadmap') {
+    rail.querySelector('.warning-panel h3').hidden = true;
+    rail.querySelector('.warning-panel .rail-action').hidden = true;
+  }
 }
 
 function render() {

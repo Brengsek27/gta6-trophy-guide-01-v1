@@ -1684,3 +1684,142 @@ footer > span:last-child {
 .rail-panel p {
   font-size: 12px;
 }
+
+:root {
+  --muted: #bec9d2;
+}
+.hero {
+  min-height: 112px;
+  padding-block: 3px;
+}
+.edition {
+  height: 40px;
+}
+h1 {
+  font-size: 54px;
+}
+h1 em {
+  font-size: 36px;
+  line-height: 1;
+  vertical-align: 4px;
+}
+.view-nav {
+  height: 46px;
+}
+.hero-copy .eyebrow {
+  margin-bottom: 4px;
+}
+.hero-copy p {
+  margin-block: 6px 0;
+}
+.postcard {
+  height: 104px;
+}
+.postcard-sun {
+  width: 74px;
+  height: 74px;
+}
+.city-art {
+  height: 95px;
+}
+.stats-band {
+  min-height: 64px;
+  padding-block: 6px;
+}
+.grade-chip {
+  padding-block: 5px;
+}
+.stat-label,
+.stat-label span:last-child,
+.points-stat span,
+.category-tag,
+.hidden-tag,
+.sources > span,
+.sources a,
+.roadmap-source,
+.roadmap-source a {
+  color: #c7d3dc;
+}
+.card-tags .tag,
+.hidden-tag {
+  font-size: 9px;
+}
+.guide-button,
+.reveal-button {
+  color: #b3e9e2;
+  font-size: 11px;
+}
+.trophy-grid > .trophy-card:last-child:nth-child(odd of :not(.is-linked)) {
+  grid-column: 1 / -1;
+}
+.guide-panel,
+.is-linked .guide-panel {
+  padding: 22px 24px;
+}
+.guide-panel .tips,
+.is-linked .tips {
+  margin-top: 16px;
+  padding: 12px 14px;
+  line-height: 1.7;
+}
+.tips b {
+  display: block;
+  margin-bottom: 4px;
+}
+.guide-panel .sources,
+.is-linked .sources {
+  margin-top: 20px;
+  padding-block: 16px 4px;
+  gap: 12px 18px;
+  align-items: baseline;
+  font-size: 11px;
+}
+.side-rail {
+  gap: 7px;
+}
+.rail-panel {
+  padding: 6px 13px;
+}
+.rail-panel h2 {
+  font-size: 21px;
+  margin-block: 7px;
+}
+.rail-panel p {
+  color: #c4ced7;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.rail-panel h3 {
+  margin-top: 6px;
+}
+.rail-action {
+  padding-top: 6px;
+}
+.backup-actions {
+  margin-top: 7px;
+}
+.backup-actions button {
+  padding-block: 5px;
+}
+.legend-list {
+  gap: 3px;
+  margin-top: 7px;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 15px;
+}
+.rail-panel:nth-child(3) > p {
+  margin-top: 6px !important;
+}
+.side-rail > .rail-footnote {
+  margin-top: 0;
+}
+@media (max-width: 650px) {
+  .hero {
+    min-height: 145px;
+  }
+  .guide-panel,
+  .is-linked .guide-panel {
+    padding: 18px;
+  }
+}
